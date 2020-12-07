@@ -34,12 +34,24 @@ public class Menu {
 			try {
 				op = Integer.parseInt(str);
 				if(op == 1){
+					System.out.println("Informe seu CPF");
+					int cpf = Integer.parseInt(s.nextLine());
+					System.out.println("Informe seu Nome");
+					String nome = s.nextLine();
+					Cliente a = new Cliente(nome,cpf);
+					System.out.println("Informe o Valor do Deposito Inicial");
+					double saldo = Double.parseDouble(s.nextLine());
+					Conta b = new Conta(saldo,a);
+					System.out.println("Cliente Criado\nNome: "+ b.getCliente().getNome() +"\nSaldo: "+b.getSaldo());
+
+					}
+				if(op == 2){
 					System.out.println("Selecione uma opcao");
 					System.out.println("1 - Ver Clientes Cadastrados");
 					System.out.println("2 - Cadastrar um cliente");
 				    str = s.nextLine();
 					op2 = Integer.parseInt(str);
-					if (op == 1){
+					if (op2 == 1){
 						for (Cliente cliente : listClientes) {
 							System.out.println(cliente.getNome());
 						}
