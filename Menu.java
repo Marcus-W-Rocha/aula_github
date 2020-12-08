@@ -12,6 +12,7 @@ public class Menu {
 		this.options = options;
 	}
 	private ArrayList<Cliente> listClientes = new ArrayList<Cliente>();
+	private ArrayList<Conta> listContas = new ArrayList<Conta>();
 
 	public Menu(String title, List<String> options) {
 		this.title = title;
@@ -21,7 +22,7 @@ public class Menu {
 	public int getSelection() {
 		int op = 0;
 		int op2;
-		while (op==0){
+		while (op<=3){
 			System.out.println(title+"\n");
 			int i=1;
 			for (String option : options) {
@@ -35,16 +36,24 @@ public class Menu {
 				op = Integer.parseInt(str);
 				if(op == 1){
 					System.out.println("Informe seu CPF");
-					int cpf = Integer.parseInt(s.nextLine());
-					System.out.println("Informe seu Nome");
-					String nome = s.nextLine();
-					Cliente a = new Cliente(nome,cpf);
-					System.out.println("Informe o Valor do Deposito Inicial");
-					double saldo = Double.parseDouble(s.nextLine());
-					Conta b = new Conta(saldo,a);
-					System.out.println("Cliente Criado\nNome: "+ b.getCliente().getNome() +"\nSaldo: "+b.getSaldo());
-
-					}
+          			int cpf = Integer.parseInt(s.nextLine());
+          			Cliente cli = null;
+          			for (Cliente cliente : listClientes){
+           		 		if (cpf == cliente.getCpf()){
+              				cli = cliente;
+            			}
+          			}
+          			if (cli == null){
+            			System.out.println("Cliente Inexistente");
+          			}
+          			else{
+            			System.out.println("Informe o Valor do Deposito Inicial");
+            			double saldo = Double.parseDouble(s.nextLine());
+            			Conta b = new Conta(saldo,cli);
+            			System.out.println("Conta Criada\nNome do Cliente: "+ b.getCliente().getNome() +"\nSaldo: "+b.getSaldo());
+            			listContas.add(b);
+          			}
+				}
 				if(op == 2){
 					System.out.println("Selecione uma opcao");
 					System.out.println("1 - Ver Clientes Cadastrados");
@@ -63,8 +72,36 @@ public class Menu {
 						int cpf = Integer.parseInt(s.nextLine());
 						Cliente novoCliente = new Cliente(nome, cpf);
 						listClientes.add(novoCliente);
+					} }
+				if (op==3) {
+					System.out.println("Informe seu CPF");
+					int cpf = Integer.parseInt(s.nextLine());
+					double saldo = 0;
+					Conta con = null;
+					for (Conta conta : listContas) {
+						if (cpf == conta.getCliente().getCpf()){	
+							saldo = conta.getSaldo();
+							con = conta;
+							break;
+							}
+					}
+					System.out.println("Selecione uma opcao");
+					System.out.println("1 - Saque");
+					System.out.println("2 - Deposito");
+					op2 = Integer.parseInt(s.nextLine());
+					if (op2 == 1){
+						System.out.println("Informe o Valor do Saque");
+						double saque = Double.parseDouble(s.nextLine());
+						if (saque<saldo){
+							saldo = saldo - saque;
+							con.setSaldo(saldo);
+							System.out.println("Saque realizado com sucesso!");
+						}
+						else {
+							System.out.println("Saldo insuficiente");
+						}
 					}	
-				}
+				}	
 			}
 			catch (NumberFormatException e) {
 				op =0;
