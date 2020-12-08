@@ -1,5 +1,4 @@
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -20,6 +19,7 @@ public class Menu {
 	}
 
 	public int getSelection() {
+		Scanner s = new Scanner(System.in);
 		int op = 0;
 		int op2;
 		while (op<=3){
@@ -30,7 +30,6 @@ public class Menu {
 			}
 
 			System.out.println("Informe a opcao desejada. ");
-			Scanner s = new Scanner(System.in);
 			String str = s.nextLine();
 			try {
 				op = Integer.parseInt(str);
@@ -83,8 +82,9 @@ public class Menu {
 							saldo = conta.getSaldo();
 							con = conta;
 							break;
-							}
+						}
 					}
+					System.out.println(con.getCliente().getNome());
 					System.out.println("Selecione uma opcao");
 					System.out.println("1 - Saque");
 					System.out.println("2 - Deposito");
@@ -100,7 +100,14 @@ public class Menu {
 						else {
 							System.out.println("Saldo insuficiente");
 						}
-					}	
+					}
+					if(op2 == 2){
+						System.out.println("Informe o Valor do deposito");
+						double valor = Double.parseDouble(s.nextLine());
+						saldo = saldo + valor;
+						con.setSaldo(saldo);
+						System.out.println("Deposito realizado com sucesso!");
+					}
 				}	
 			}
 			catch (NumberFormatException e) {
@@ -110,8 +117,8 @@ public class Menu {
 				System.out.println("Opcao errada!");
 				op=0;
 			}
-
 		}
+		s.close();
 		return op;
 	}
 }
